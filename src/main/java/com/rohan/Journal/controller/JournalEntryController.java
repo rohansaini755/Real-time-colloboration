@@ -2,9 +2,7 @@ package com.rohan.Journal.controller;
 
 
 import com.rohan.Journal.Entity.JournalEntry;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +18,12 @@ public class JournalEntryController {
     @GetMapping
     public List<JournalEntry> getAll(){
         return new ArrayList<>(journalentry.values());
+    }
+
+    @PostMapping
+    public boolean createEntry(@RequestBody JournalEntry myEntry){
+        journalentry.put(myEntry.getId() , myEntry);
+        return true;
     }
 
 }

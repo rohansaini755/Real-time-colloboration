@@ -1,9 +1,6 @@
 package com.rohan.Journal.Entity;
 
 
-import org.springframework.web.bind.annotation.RestController;
-
-
 public class JournalEntry {
     private int id;
 
@@ -11,7 +8,7 @@ public class JournalEntry {
 
     private String content;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
