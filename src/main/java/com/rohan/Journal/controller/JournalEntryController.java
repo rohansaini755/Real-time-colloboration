@@ -24,11 +24,11 @@ public class JournalEntryController {
         return journalEntryService.getAll();
     }
 
-    @PostMapping
-    public boolean createEntry(@RequestBody JournalEntry myEntry){
-        myEntry.setDate(LocalDate.now());
-        journalEntryService.saveEntry(myEntry);
-        return true;
-    }
+//    @PostMapping
+//    public boolean createEntry(@RequestBody JournalEntry myEntry){
+//        myEntry.setDate(LocalDate.now());
+//        journalEntryService.saveEntry(myEntry);
+//        return true;
+//    }
 
 }
