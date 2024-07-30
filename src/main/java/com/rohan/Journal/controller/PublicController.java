@@ -5,6 +5,7 @@ package com.rohan.Journal.controller;
 import com.rohan.Journal.Entity.User;
 import com.rohan.Journal.services.UserDetailServiceImpl;
 import com.rohan.Journal.services.UserService;
+import com.rohan.Journal.utils.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,16 +27,32 @@ public class PublicController {
     private UserDetailServiceImpl userDetailsService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @GetMapping("/health-check")
     public String healthCheck() {
-        System.out.println("enter");
         return "Ok";
     }
 
     @PostMapping("/signup")
     public void signup(@RequestBody User user) {
+        System.out.println("enter");
         userService.saveNewUser(user);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody User user) {
+        try{
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword()));
+            UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUserName());
+            String jwt = jwtUtil.generateToken(userDetails.getUsername());
+            return new ResponseEntity<>(jwt, HttpStatus.OK);
+        }catch (Exception e){
+            log.error("Exception occurred while createAuthenticationToken ", e);
+            return new ResponseEntity<>("Incorrect username or password", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
